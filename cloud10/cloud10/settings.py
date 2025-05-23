@@ -63,10 +63,10 @@ WSGI_APPLICATION = 'cloud10.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',        # PostgreSQL 데이터베이스 이름
+        'NAME': 'cloud10',        # PostgreSQL 데이터베이스 이름을 cloud10으로 수정
         'USER': 'inhapj10',       # PostgreSQL 사용자명
         'PASSWORD': 'cloud10!',     # PostgreSQL 비밀번호
-        'HOST': 'inha-pj-10-rds.cj24wem202yj.us-east-1.rds.amazonaws.com',
+        'HOST': 'inha-pj-10-rds.cj24wem202yj.us-east-1.rds.amazonaws.com', 
         'PORT': '5432',
     }
 }
