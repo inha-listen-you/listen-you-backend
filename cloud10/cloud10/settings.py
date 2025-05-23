@@ -59,17 +59,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cloud10.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# Database 연결 정보
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cloud10',        # PostgreSQL 데이터베이스 이름
+        'NAME': 'postgres',        # PostgreSQL 데이터베이스 이름
         'USER': 'inhapj10',       # PostgreSQL 사용자명
         'PASSWORD': 'cloud10!',     # PostgreSQL 비밀번호
-        'HOST': 'inha-pj-10-rds.cj24wem202yj.us-east-1.rds.amazonaws.com',  # 호스트 주소
-        'PORT': '5432',           # 포트 번호 (기본값 5432)
+        'HOST': 'inha-pj-10-rds.cj24wem202yj.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 

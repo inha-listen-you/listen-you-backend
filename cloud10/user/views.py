@@ -4,8 +4,8 @@ from rest_framework import status
 from .models import User
 from .serializers import UserSerializer
 
-# Create your views here.
 
+# 유저 정보 조회
 class UserInfoView(APIView):
     def get(self, request):
         try:
