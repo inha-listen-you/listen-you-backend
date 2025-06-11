@@ -61,7 +61,7 @@ CHECKPOINT_TABLE_NAME = os.environ['DYNAMODB_CHECKPOINT_TABLE_NAME']
 
 checkpoint_table_config = DynamoDBTableConfig(table_name=CHECKPOINT_TABLE_NAME)
 # checkpointer_config = DynamoDBConfig(table_config=checkpoint_table_config, endpoint_url='http://localhost:8000')
-checkpointer_config = DynamoDBConfig(table_config=checkpoint_table_config)
+checkpointer_config = DynamoDBConfig(table_config=checkpoint_table_config, region_name='us-east-1')
 checkpointer = DynamoDBSaver(config=checkpointer_config, deploy=False)
 
 
