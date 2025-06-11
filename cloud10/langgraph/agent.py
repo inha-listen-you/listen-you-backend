@@ -50,7 +50,7 @@ class AgentState(TypedDict):
 
 
 # dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
 # TABLE_NAME = 'listen-you-full'
 TABLE_NAME = os.environ['DYNAMODB_TABLE_NAME']
