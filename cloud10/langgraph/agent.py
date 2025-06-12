@@ -110,7 +110,7 @@ def insert_counsel_data(user_id, counsel_id, ai_answer, user_input):
 
         response = table.put_item(
             Item={
-                'user_id': user_id,
+                'user_id': str(user_id),
                 'timestamp': current_timestamp,
                 'counsel_id': counsel_id,
                 'ai_answer': ai_answer,
