@@ -21,6 +21,7 @@ dependencies = [
     "langchain-tavily>=0.2.0",
     "langgraph>=0.4.7",
     "langgraph-checkpoint-amazon-dynamodb>=0.1.2",
+    "django-cors-headers (>=4.7.0,<5.0.0)",
 ]
 
 
