@@ -70,13 +70,13 @@ def get_llm_local():
     return llm
 
 def get_llm():
-    model_id_from_user = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
+    # model_id_from_user = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
 
     llm = ChatBedrock(
         region_name="us-east-1",
-        model_id=model_id_from_user,
+        model_id="anthropic.claude-3-5-haiku-20241022-v1:0",
         model_kwargs={
-            "anthropic_version": "bedrock-2023-05-31",
+            # "anthropic_version": "bedrock-2023-05-31",
             "temperature": 0.7,
             "max_tokens": 1000
         }
