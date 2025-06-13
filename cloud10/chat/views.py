@@ -9,6 +9,7 @@ from .serializers import ConsultLogSerializer
 
 
 from langgraph.agent import get_graph, insert_counsel_data
+from langgraph.summary_agent import get_graph as get_summary_graph
 
 
 
@@ -74,3 +75,14 @@ class GenerateAIMessageView(APIView):
 
             print(traceback.format_exc())
             raise
+
+class SummarizeConsultLogView(APIView):
+    def post(self, request):
+        state = {
+            'consult_history': request.data['consult_history']
+        }
+        response = get_summary_graph().invoke(state)
+
+        return Response({
+            'summary': response['summary']
+        })
