@@ -14,8 +14,10 @@ class LoginView(APIView):
             try:
                 user = User.objects.get(username=username, password=password)
                 return Response({
-                    'message': '로그인이 완료되었습니다',
-                    'user_id': user.id
+                    'message': '로그인 성공',
+                    'user_id': user.id,
+                    'username': user.username,
+                    'consult_list': user.consult_list
                 }, status=status.HTTP_200_OK)
             except User.DoesNotExist:
                 return Response({
