@@ -8,7 +8,7 @@ from typing import TypedDict, List, Dict, Any
 from langchain_aws import ChatBedrock
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAI
 from langgraph.constants import START
 from langgraph.graph import StateGraph, END
 
@@ -26,7 +26,7 @@ RAG_PROMPT_TEMPLATE = """
 4. 권장 사항: 상담 내용을 바탕으로 한 권장 사항이나 해결책
 
 JSON 상담 내역:
-{consultation_history}
+{consult_history}
 
 요약 형식:
 - 주요 문제: [사용자의 핵심 문제 요약]
