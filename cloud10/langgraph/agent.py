@@ -137,4 +137,3 @@ def get_counsel_data(counsel_id):
     if response['Items']:
         for item in response['Items']:
             print(f"user_id: {item['user_id']}, timestamp: {item['timestamp']}, ai_answer: {item['ai_answer']}")
-

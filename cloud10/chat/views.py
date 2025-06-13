@@ -4,9 +4,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import uuid
 from datetime import datetime
+from .models import ConsultLog
+from .serializers import ConsultLogSerializer
+
 
 from langgraph.agent import get_graph, insert_counsel_data
 
+
+class ConsultLogListView(APIView):
+    def get(self, request):
+        logs = ConsultLog.objects.all()
+        serializer = ConsultLogSerializer(logs, many=True)
+        return Response(serializer.data)
+    
 
 class RandomHashView(APIView):
     def get(self, request):
