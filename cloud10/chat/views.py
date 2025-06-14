@@ -1,3 +1,6 @@
+import json
+
+from django.db import connection
 from langchain_core.messages import HumanMessage
 from langgraph_checkpoint_dynamodb.errors import DynamoDBCheckpointError
 from rest_framework.views import APIView
@@ -78,11 +81,25 @@ class GenerateAIMessageView(APIView):
 
 class SummarizeConsultLogView(APIView):
     def post(self, request):
+        user_id = request.data['user_id']
+        counsel_id = request.data['counsel_id']
+        counsel_history = request.data['counsel_history']
         state = {
-            'consult_history': request.data['consult_history']
+            'consult_history': counsel_history
         }
         response = get_summary_graph().invoke(state)
+        report = {
+            'summary': response['summary'],
+            'status': "completed"
+        }
 
-        return Response({
-            'summary': response['summary']
-        })
+        counsel_history_str = json.dumps(counsel_history, ensure_ascii=False)
+        report_str = json.dumps(report, ensure_ascii=False)
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """INSERT INTO consult_log (user_id, counsel_id, consel_history, report) 
+                   VALUES (%s, %s, %s, %s)""",
+                [user_id, counsel_id, counsel_history_str, report_str]
+            )
+        return Response(report)
