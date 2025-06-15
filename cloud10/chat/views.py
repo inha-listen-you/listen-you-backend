@@ -98,8 +98,11 @@ class SummarizeConsultLogView(APIView):
 
         with connection.cursor() as cursor:
             cursor.execute(
-                """INSERT INTO consult_log (user_id, counsel_id, consel_history, report) 
-                   VALUES (%s, %s, %s, %s)""",
-                [user_id, counsel_id, counsel_history_str, report_str]
+                """UPDATE consult_log 
+                   SET user_id = %s,
+                       consel_history = %s,
+                       report = %s
+                   WHERE counsel_id = %s""",
+                [user_id, counsel_history_str, report_str, counsel_id]
             )
         return Response(report)
