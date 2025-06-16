@@ -15,11 +15,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-ALLOWED_HOSTS = ["*", "54.164.108.216"]
+ALLOWED_HOSTS = [
+    "*",
+    "54.164.108.216",
+    "api.listen-you.wibaek.com",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://listen-you.wibaek.com",
 ]
 
 # Application definition
