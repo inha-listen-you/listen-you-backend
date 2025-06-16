@@ -10,4 +10,5 @@ urlpatterns = [
     path('date/', UserConsultDateView.as_view(), name='user-consult-date'),
     # 가장 최신의 상담 기록 
     path('report/latest/', UserLatestReportView.as_view()),
+    path('consultreport/', ConsultReportView.as_view(), name='consult-report'),
 ] 
