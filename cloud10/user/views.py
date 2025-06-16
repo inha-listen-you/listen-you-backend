@@ -154,3 +154,56 @@ class UserLatestReportView(APIView):
         except Exception as e:
             print(f"최신 상담 조회 중 오류 발생: {type(e).__name__} - {str(e)}")
             return Response({'message': f'최신 상담 내역 조회 중 오류가 발생했습니다: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ConsultReportView(APIView):
+    """
+    특정 counsel_id에 대한 상담 리포트를 조회합니다.
+    """
+    def post(self, request):
+        try:
+            counsel_id = request.data.get('counsel_id')
+            if not counsel_id:
+                return Response({
+                    'message': '상담 ID를 입력해주세요.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Raw SQL을 사용하여 특정 상담의 리포트 조회
+            sql = """
+                SELECT counsel_id, report, created_at
+                FROM consult_log
+                WHERE counsel_id = %s
+            """
+
+            with connection.cursor() as cursor:
+                cursor.execute(sql, [counsel_id])
+                row = cursor.fetchone()
+
+            if not row:
+                return Response({
+                    'message': '해당 상담 기록을 찾을 수 없습니다.'
+                }, status=status.HTTP_404_NOT_FOUND)
+
+            columns = [col[0] for col in cursor.description]
+            log_data = dict(zip(columns, row))
+
+            # report가 문자열인 경우 JSON으로 파싱
+            report = log_data.get('report')
+            if isinstance(report, str):
+                try:
+                    log_data['report'] = json.loads(report)
+                except json.JSONDecodeError:
+                    log_data['report'] = None
+
+            response_data = {
+                'message': '상담 리포트 조회 성공',
+                'counsel_id': str(log_data['counsel_id']),
+                'created_at': log_data['created_at'].strftime('%Y-%m-%d %H:%M:%S'),
+                'report': log_data['report']
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(f"상담 리포트 조회 중 오류 발생: {type(e).__name__} - {str(e)}")
+            return Response({
+                'message': f'상담 리포트 조회 중 오류가 발생했습니다: {str(e)}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
