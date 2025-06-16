@@ -7,7 +7,7 @@ from langgraph_checkpoint_dynamodb.errors import DynamoDBCheckpointError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import ConsultLog
 from .serializers import ConsultLogSerializer
 
@@ -103,3 +103,37 @@ class SummarizeConsultLogView(APIView):
                 [user_id, counsel_history_str, report_str, counsel_id]
             )
         return Response(report)
+
+class WeeklyConsultCountView(APIView):
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        
+        if not user_id:
+            return Response({
+                'error': 'user_id는 필수 파라미터입니다.'
+            }, status=400)
+            
+        # 오늘 날짜와 일주일 전 날짜 계산
+        today = datetime.now()
+        week_ago = today - timedelta(days=7)
+        
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT COUNT(*) 
+                FROM consult_log 
+                WHERE user_id = %s 
+                AND created_at >= %s
+                """,
+                [user_id, week_ago]
+            )
+            count = cursor.fetchone()[0]
+            
+        return Response({
+            'user_id': user_id,
+            'weekly_consult_count': count,
+            'period': {
+                'start': week_ago.strftime('%Y-%m-%d'),
+                'end': today.strftime('%Y-%m-%d')
+            }
+        })
