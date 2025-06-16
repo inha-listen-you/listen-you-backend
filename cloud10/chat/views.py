@@ -19,12 +19,23 @@ from langgraph.summary_agent import get_graph as get_summary_graph
 
 class RandomHashView(APIView):
     def get(self, request):
-        """c_로 시작하는 랜덤 해시값 대신 표준 UUID를 생성합니다."""
+        """c_로 시작하는 랜덤 해시값 대신 표준 UUID를 생성하고 consult_log에 초기 데이터를 삽입합니다."""
         
         # 표준 UUID (Version 4) 생성
         counsel_id_uuid = uuid.uuid4()
         
         current_time = datetime.now()
+        
+        # consult_log 테이블에 초기 데이터 삽입
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO consult_log 
+                (counsel_id, created_at, user_id, consel_history, report) 
+                VALUES (%s, %s, NULL, NULL, NULL)
+                """,
+                [str(counsel_id_uuid), current_time]
+            )
         
         return Response({
             'counsel_id': str(counsel_id_uuid),  # UUID 객체를 문자열로 변환하여 전달
