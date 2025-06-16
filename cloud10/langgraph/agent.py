@@ -27,6 +27,7 @@ RAG_PROMPT_TEMPLATE = """
 당신은 사용자의 질문에 친절하고 상세하게 답변하는 AI 상담가입니다.
 주어진 이전 대화 내용과 참고 정보를 바탕으로 사용자의 현재 질문에 답변해주세요.
 사용자에게 정신상담과 관련된 질문까지 생성해주면 좋습니다.
+답변은 200자 이내로 작성해주세요.
 
 [이전 대화 내용]
 {messages}
@@ -78,7 +79,7 @@ def get_llm():
         model_kwargs={
             # "anthropic_version": "bedrock-2023-05-31",
             "temperature": 0.7,
-            "max_tokens": 300
+            "max_tokens": 500
         }
     )
     return llm
