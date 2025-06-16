@@ -78,7 +78,7 @@ def get_llm():
         model_kwargs={
             # "anthropic_version": "bedrock-2023-05-31",
             "temperature": 0.7,
-            "max_tokens": 1000
+            "max_tokens": 300
         }
     )
     return llm
